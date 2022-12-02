@@ -13,6 +13,7 @@ parallel::stopCluster(cl)
 
 result %>%
     collect_metrics() %>%
+    filter(.metric == "accuracy") %>%
     arrange(desc(mean)) %>%
     print()
 
