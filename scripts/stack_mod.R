@@ -17,12 +17,11 @@ final_st <-
   add_candidates(ridge) %>%
   add_candidates(lasso) %>%
   add_candidates(elastic) %>%
-  # add_candidates(rf) %>%
-  # add_candidates(xgb) %>%
+  add_candidates(rf) %>%
+  add_candidates(xgb) %>%
   add_candidates(mlp) %>%
   blend_predictions(
-    control = tune::control_grid(allow_par = TRUE, verbose = TRUE),
-    times = 5
+    control = tune::control_grid(allow_par = TRUE)
   ) %>% # evaluate candidate models
   fit_members()
 parallel::stopCluster(cl)
