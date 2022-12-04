@@ -16,17 +16,18 @@ to_normalize <- target %>%
     ) %>%
     colnames()
 
-target <- target %>% mutate(across(all_of(to_normalize), scale))
+target <- test %>% mutate(across(all_of(to_normalize), as.numeric, scale))
 
 test <- recipe(~., data = target) %>%
-    step_rm(doc_id) %>%
+    # step_rm(doc_id) %>%
     prep() %>%
     bake(new_data = NULL)
 
 final_pred <- predict(final_st, test) %>%
-    bind_cols(target) %>%
-    select(doc_id, .pred_class) %>%
-    rename(name = .pred_class, id = doc_id)
+    bind_cols(target)
+#  %>%
+# select(doc_id, .pred_class) %>%
+# rename(name = .pred_class, id = doc_id)
 
 form <- read_csv("../stores/test.csv")
 form <- form %>%

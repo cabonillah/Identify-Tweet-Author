@@ -17,7 +17,7 @@ to_normalize <- data %>%
     ) %>%
     colnames()
 
-
+data <- data %>% mutate(across(all_of(to_normalize), as.numeric))
 
 
 # Create train and test samples

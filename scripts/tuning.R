@@ -3,7 +3,7 @@ library("tune")
 library("stacks")
 
 ctrl_grid <- stacks::control_stack_grid()
-size <- 500
+size <- 5
 
 tuning <- function(object,
                    resamples,
@@ -13,7 +13,7 @@ tuning <- function(object,
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                penalty(),
+                penalty(c(0.0175, 0.0200), trans = NULL),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -25,7 +25,7 @@ tuning <- function(object,
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                penalty(),
+                penalty(c(0.000643, 0.00114), trans = NULL),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -37,8 +37,8 @@ tuning <- function(object,
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                penalty(),
-                mixture(),
+                penalty(c(-2.93, -2.77)),
+                mixture(c(0.5, 0.9)),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -65,12 +65,12 @@ tuning <- function(object,
             object = object,
             grid = grid_latin_hypercube(
                 mtry(c(1, 74)),
-                min_n(),
-                sample_prop(),
-                tree_depth(c(4, 12)),
-                learn_rate(c(-2, -1)),
-                loss_reduction(),
-                trees(),
+                min_n(c(1, 8)),
+                sample_prop(c(0.55, 0.8)),
+                tree_depth(c(6, 9)),
+                learn_rate(c(-1.8, -1.25)),
+                loss_reduction(c(-10, -6)),
+                trees(c(1500, 2000)),
                 stop_iter(),
                 size = size
             ),
@@ -84,10 +84,10 @@ tuning <- function(object,
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                epochs(),
-                penalty(),
-                learn_rate(),
-                hidden_units(),
+                epochs(c(900, 1000)),
+                penalty(c(-8, -4)),
+                learn_rate(c(-1.075, -1)),
+                hidden_units(c(5, 10)),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
