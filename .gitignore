@@ -37,3 +37,5 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+scripts/run_models.R
+scripts/tuning.R
