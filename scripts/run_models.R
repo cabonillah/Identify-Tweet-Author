@@ -23,11 +23,3 @@ system.time({
     autoplot(result, metric = "accuracy")
     ggsave("../stores/mlp_clas.png")
 })
-
-system.time({
-  source("../scripts/rf_clas.R")
-  autoplot(result, metric = "accuracy")
-  ggsave("../stores/rf_clas.png")
-
-})
-
