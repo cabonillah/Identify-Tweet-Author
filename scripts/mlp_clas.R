@@ -9,7 +9,7 @@ result <- wf %>% tuning(
     model = "mlp"
 )
 parallel::stopCluster(cl)
-
+print("---- MLP ---")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%

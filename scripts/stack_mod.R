@@ -25,3 +25,5 @@ final_st <-
   ) %>% # evaluate candidate models
   fit_members()
 parallel::stopCluster(cl)
+
+saveRDS(final_st, "../stores/final_st.Rds")

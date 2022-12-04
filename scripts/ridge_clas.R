@@ -10,7 +10,7 @@ result <- wf %>% tuning(
     model = "ridge"
 )
 parallel::stopCluster(cl)
-
+print("---- RIDGE ---")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -23,11 +23,11 @@ best <- select_best(result, metric = "accuracy")
 final_wf <- wf %>% finalize_workflow(best)
 
 # Check coefficients
-final_wf %>%
-    fit(train) %>%
-    tidy() %>%
-    arrange(desc(estimate)) %>%
-    print(n = Inf)
+# final_wf %>%
+#     fit(train) %>%
+#     tidy() %>%
+#     arrange(desc(estimate)) %>%
+#     print(n = Inf)
 
 # Save workflow
 saveRDS(final_wf, "../stores/bestwf_ridge.Rds")

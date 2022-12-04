@@ -38,4 +38,5 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 scripts/run_models.R
-scripts/tuning.R
+# scripts/tuning.R
+stores/final_st*

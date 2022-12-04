@@ -11,6 +11,7 @@ result <- wf %>% tuning(
 )
 parallel::stopCluster(cl)
 
+print("---- XGB ---")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -23,12 +24,12 @@ best <- select_best(result, metric = "accuracy")
 final_wf <- wf %>% finalize_workflow(best)
 
 # See variables arranged by importance
-final_wf %>%
-    fit(train) %>%
-    extract_fit_parsnip() %>%
-    vip::vi() %>%
-    dplyr::arrange(desc(Importance)) %>%
-    print(n = Inf)
+# final_wf %>%
+#     fit(train) %>%
+#     extract_fit_parsnip() %>%
+#     vip::vi() %>%
+#     dplyr::arrange(desc(Importance)) %>%
+#     print(n = Inf)
 
 # Save workflow
 saveRDS(final_wf, "../stores/bestwf_xgb.Rds")
