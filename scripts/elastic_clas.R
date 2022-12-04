@@ -24,7 +24,7 @@ final_wf <- wf %>% finalize_workflow(best)
 
 # Check coefficients
 final_wf %>%
-    fit(validation) %>%
+    fit(train) %>%
     tidy() %>%
     arrange(desc(estimate)) %>%
     print(n = Inf)

@@ -25,7 +25,7 @@ final_wf <- wf %>% finalize_workflow(best)
 
 # See variables arranged by importance
 final_wf %>%
-    fit(validation) %>%
+    fit(train) %>%
     extract_fit_parsnip() %>%
     vip::vi() %>%
     dplyr::arrange(desc(Importance)) %>%
