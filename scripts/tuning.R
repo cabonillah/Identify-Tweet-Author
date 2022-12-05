@@ -3,7 +3,7 @@ library("tune")
 library("stacks")
 
 ctrl_grid <- stacks::control_stack_grid()
-size <- 200
+size <- 100
 
 tuning <- function(object,
                    resamples,
@@ -52,9 +52,9 @@ tuning <- function(object,
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                mtry(c(1, 74)),
-                min_n(),
-                trees(),
+                mtry(c(1, 40)),
+                min_n(c(2, 30)),
+                trees(c(200, 2000)),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -67,12 +67,12 @@ tuning <- function(object,
             object = object,
             grid = grid_latin_hypercube(
                 mtry(c(1, 74)),
-                min_n(),
+                min_n(c(2, 30)),
                 sample_prop(),
                 tree_depth(),
-                learn_rate(),
+                learn_rate(c(-7.5, -1)),
                 loss_reduction(),
-                trees(),
+                trees(c(250, 2000)),
                 stop_iter(),
                 size = size
             ),
@@ -88,7 +88,7 @@ tuning <- function(object,
             grid = grid_latin_hypercube(
                 epochs(),
                 penalty(),
-                learn_rate(),
+                learn_rate(c(-3, -1)),
                 hidden_units(),
                 size = size
             ),
