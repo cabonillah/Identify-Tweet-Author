@@ -53,7 +53,7 @@ tuning <- function(object,
             object = object,
             grid = grid_latin_hypercube(
                 mtry(c(1, 40)),
-                min_n(c(2, 30)),
+                min_n(c(2, 20)),
                 trees(c(200, 2000)),
                 size = size
             ),
