@@ -16,7 +16,7 @@ runner <- function(expr) {
             tictoc::tic.clear()
             notification <- paste(alert$callback_msg, "and", werethereanyerrors)
             beepr::beep(2)
-            RPushbullet::pbPost("note", "Script alert", notification)
+            # RPushbullet::pbPost("note", "Script alert", notification)
         }
     )
 }
