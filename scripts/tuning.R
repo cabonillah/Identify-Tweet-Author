@@ -6,7 +6,7 @@ library("finetune")
 ctrl_grid <- stacks::control_stack_grid()
 ctrl_grid_race <- finetune::control_race()
 
-size <- 50
+size <- 25
 tuning <- function(object,
                    resamples,
                    model,
@@ -58,9 +58,9 @@ tuning <- function(object,
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                mtry(c(1, 6)),
-                min_n(c(10, 20)),
-                trees(c(500, 1750)),
+                mtry(c(3, 6)),
+                min_n(c(11, 15)),
+                trees(c(750, 1000)),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
