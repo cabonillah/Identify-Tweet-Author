@@ -6,7 +6,7 @@ library("finetune")
 ctrl_grid <- stacks::control_stack_grid()
 ctrl_grid_race <- finetune::control_race()
 
-size <- 200
+size <- 50
 
 tuning <- function(object,
                    resamples,
@@ -17,7 +17,7 @@ tuning <- function(object,
             # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                penalty(),
+                penalty(c(0.005, 0.01), trans = NULL),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -31,7 +31,7 @@ tuning <- function(object,
             # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                penalty(),
+                penalty(c(0.01, 0.03), trans = NULL),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -45,8 +45,8 @@ tuning <- function(object,
             # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                penalty(),
-                mixture(),
+                penalty(c(-2, -1.5)),
+                mixture(c(0.25, 0.9)),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
@@ -55,12 +55,12 @@ tuning <- function(object,
         )
     }
     if (model == "rf") {
-        tune <- finetune::tune_race_anova(
-            # tune <- tune::tune_grid(
+        # tune <- finetune::tune_race_anova(
+        tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                mtry(c(1, 95)),
-                min_n(),
+                mtry(c(1, 13)),
+                min_n(c(10, 20)),
                 trees(),
                 size = size
             ),
@@ -97,9 +97,9 @@ tuning <- function(object,
             grid = grid_latin_hypercube(
                 epochs(),
                 penalty(),
-                learn_rate(),
+                learn_rate(c(-2, -1)),
                 hidden_units(),
-                size = 100
+                size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,

@@ -39,9 +39,9 @@ rm(train_temp)
 
 
 set.seed(10)
-validation_split <- vfold_cv(validation, v = 5, strata = name)
+validation_split <- vfold_cv(train, v = 5, strata = name)
 
 # Recipe to prepare data for classification
 
-rec <- recipe(name ~ ., data = validation) %>%
+rec <- recipe(name ~ ., data = train) %>%
     step_normalize(all_of(to_normalize))
