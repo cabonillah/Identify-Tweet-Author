@@ -1,16 +1,20 @@
 library("yardstick")
 library("tune")
 library("stacks")
+library("finetune")
 
-ctrl_grid <- stacks::control_stack_grid()
-size <- 50
+ctrl_grid <- stacks::control_stack_grid(allow_par = TRUE)
+ctrl_grid_race <- finetune::control_race()
+
+size <- 200
 
 tuning <- function(object,
                    resamples,
                    model,
                    ...) {
     if (model == "lasso") {
-        tune <- tune::tune_grid(
+        tune <- finetune::tune_race_anova(
+            # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
                 penalty(),
@@ -18,12 +22,13 @@ tuning <- function(object,
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,
-            control = ctrl_grid
+            control = ctrl_grid_race
         )
     }
 
     if (model == "ridge") {
-        tune <- tune::tune_grid(
+        tune <- finetune::tune_race_anova(
+            # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
                 penalty(),
@@ -31,12 +36,13 @@ tuning <- function(object,
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,
-            control = ctrl_grid
+            control = ctrl_grid_race
         )
     }
 
     if (model == "elastic") {
-        tune <- tune::tune_grid(
+        tune <- finetune::tune_race_anova(
+            # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
                 penalty(),
@@ -45,52 +51,55 @@ tuning <- function(object,
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,
-            control = ctrl_grid
+            control = ctrl_grid_race
         )
     }
     if (model == "rf") {
-        tune <- tune::tune_grid(
+        tune <- finetune::tune_race_anova(
+            # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                mtry(c(1, 40)),
-                min_n(c(2, 20)),
-                trees(c(200, 2000)),
+                mtry(c(1, 95)),
+                min_n(),
+                trees(),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,
-            control = ctrl_grid
+            control = ctrl_grid_race
         )
     }
     if (model == "xgb") {
-        tune <- tune::tune_grid(
+        tune <- finetune::tune_race_anova(
+            # tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                mtry(c(1, 74)),
-                min_n(c(2, 30)),
+                mtry(c(1, 95)),
+                min_n(),
                 sample_prop(),
-                tree_depth(c(3, 15)),
-                learn_rate(c(-4, -1)),
-                loss_reduction(c(-10, 0)),
-                trees(c(250, 2000)),
+                tree_depth(),
+                learn_rate(),
+                loss_reduction(),
+                trees(),
                 stop_iter(),
                 size = size
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,
-            control = ctrl_grid
+            control = ctrl_grid_race
         )
     }
 
     if (model == "mlp") {
+        # tune <- finetune::tune_race_anova(
         tune <- tune::tune_grid(
             object = object,
             grid = grid_latin_hypercube(
-                epochs(c(300, 1000)),
-                penalty(c(-10, -2)),
-                learn_rate(c(-2, -1)),
-                hidden_units(c(3, 10)),
-                size = size
+                epochs(),
+                penalty(),
+                learn_rate(),
+                hidden_units(),
+                size = 100
             ),
             metrics = yardstick::metric_set(accuracy, roc_auc),
             resamples = resamples,

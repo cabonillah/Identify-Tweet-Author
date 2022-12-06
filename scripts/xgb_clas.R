@@ -1,3 +1,4 @@
+tictoc::tic("XGBoost")
 source("../scripts/recipes.R")
 source("../scripts/workflows.R")
 source("../scripts/tuning.R")
@@ -11,7 +12,7 @@ result <- wf %>% tuning(
 )
 parallel::stopCluster(cl)
 
-print("---- XGB ---")
+cat("-------------------------\n---------- XGB ----------\n-------------------------\n")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -56,3 +57,4 @@ saveRDS(result, "../stores/result_xgb.Rds")
 # )
 
 # saveRDS(report, file = "../stores/xgb_reg.rds")
+tictoc::toc()

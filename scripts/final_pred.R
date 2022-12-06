@@ -1,4 +1,4 @@
-source("../scripts/stack_mod.R")
+final_st <- readRDS("../stores/final_st_4.Rds")
 
 target <- readRDS("../stores/target.Rds")
 

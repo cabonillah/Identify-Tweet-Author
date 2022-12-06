@@ -1,3 +1,4 @@
+tictoc::tic("Elastic Net")
 source("../scripts/recipes.R")
 source("../scripts/workflows.R")
 source("../scripts/tuning.R")
@@ -10,7 +11,7 @@ result <- wf %>% tuning(
     model = "elastic"
 )
 parallel::stopCluster(cl)
-print("---- ELASTIC ---")
+cat("-----------------------------\n---------- ELASTIC ----------\n-----------------------------\n")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -55,3 +56,4 @@ saveRDS(result, "../stores/result_elastic.Rds")
 # )
 
 # saveRDS(report, file = "../stores/elastic_reg.rds")
+tictoc::toc()

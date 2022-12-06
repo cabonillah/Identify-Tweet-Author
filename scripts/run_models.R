@@ -1,4 +1,6 @@
-system.time({
+source("../scripts/runner.R")
+
+runner({
     source("../scripts/lasso_clas.R")
     autoplot(result, metric = "accuracy")
     ggsave("../stores/lasso_clas.png")
@@ -19,7 +21,7 @@ system.time({
     autoplot(result, metric = "accuracy")
     ggsave("../stores/xgb_clas.png")
 
-    source("../scripts/mlp_clas.R")
-    autoplot(result, metric = "accuracy")
-    ggsave("../stores/mlp_clas.png")
+    # source("../scripts/mlp_clas.R")
+    # autoplot(result, metric = "accuracy")
+    # ggsave("../stores/mlp_clas.png")
 })

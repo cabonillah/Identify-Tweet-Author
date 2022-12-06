@@ -1,3 +1,4 @@
+tictoc::tic("Random Forest")
 source("../scripts/recipes.R")
 source("../scripts/workflows.R")
 source("../scripts/tuning.R")
@@ -10,7 +11,7 @@ result <- wf %>% tuning(
     model = "rf"
 )
 parallel::stopCluster(cl)
-print("---- RF ---")
+cat("------------------------\n---------- RF ----------\n------------------------\n")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -57,3 +58,4 @@ saveRDS(result, "../stores/result_rf.Rds")
 # )
 
 # saveRDS(report, file = "../stores/rf_reg.rds")
+tictoc::toc()

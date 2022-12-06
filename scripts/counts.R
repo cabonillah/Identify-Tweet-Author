@@ -7,6 +7,9 @@ library("doc2vec")
 data <- read_csv("../stores/train.csv")
 target <- read_csv("../stores/test.csv")
 
+target <- target %>% mutate(name = "test")
+
+df <- bind_rows(data, target)
 
 counts <- function(tweets) {
   # Detect emojis
@@ -99,6 +102,80 @@ counts <- function(tweets) {
 
   # Lower case
   tweets$text <- tolower(tweets$text)
+
+  # Detect use of certain words
+
+  tweets$ciudad <- tweets$text %>%
+    str_detect("ciudad") %>%
+    if_else(1, 0)
+
+  tweets$bogota <- tweets$text %>%
+    str_detect("bogotá|bogota") %>%
+    if_else(1, 0)
+
+  tweets$usd <- tweets$text %>%
+    str_detect("usd") %>%
+    if_else(1, 0)
+
+  tweets$onza <- tweets$text %>%
+    str_detect("onza") %>%
+    if_else(1, 0)
+
+  tweets$hoy <- tweets$text %>%
+    str_detect("hoy") %>%
+    if_else(1, 0)
+
+  tweets$colombia <- tweets$text %>%
+    str_detect("colombia") %>%
+    if_else(1, 0)
+
+  tweets$joven <- tweets$text %>%
+    str_detect("joven|jóven") %>%
+    if_else(1, 0)
+
+  tweets$gracias <- tweets$text %>%
+    str_detect("gracias") %>%
+    if_else(1, 0)
+
+  tweets$gobierno <- tweets$text %>%
+    str_detect("gobierno") %>%
+    if_else(1, 0)
+
+  tweets$duque <- tweets$text %>%
+    str_detect("duque") %>%
+    if_else(1, 0)
+
+  tweets$medellin <- tweets$text %>%
+    str_detect("medellín|medellin") %>%
+    if_else(1, 0)
+
+  tweets$petro <- tweets$text %>%
+    str_detect("petro") %>%
+    if_else(1, 0)
+
+  tweets$seguridad <- tweets$text %>%
+    str_detect("seguridad") %>%
+    if_else(1, 0)
+
+  tweets$cali <- tweets$text %>%
+    str_detect("cali") %>%
+    if_else(1, 0)
+
+  tweets$violencia <- tweets$text %>%
+    str_detect("violencia") %>%
+    if_else(1, 0)
+
+  tweets$pais <- tweets$text %>%
+    str_detect("país|pais") %>%
+    if_else(1, 0)
+
+  tweets$vacuna <- tweets$text %>%
+    str_detect("vacuna") %>%
+    if_else(1, 0)
+
+  tweets$pacto <- tweets$text %>%
+    str_detect("pacto") %>%
+    if_else(1, 0)
 
   # Replace non-alphabetic characters
   tweets$text <- str_replace_all(tweets$text, "[^[:alpha:]]", " ")
@@ -285,11 +362,16 @@ counts <- function(tweets) {
   tweets
 }
 
-# Transform and save train data
-data <- counts(data)
+# Transform train and test data
+df <- counts(df)
+
+# Save train data
+data <- df %>% filter(name != "test")
 saveRDS(data, "../stores/data.Rds")
 
 
-# Transform and save test data
-target <- counts(target)
+# Save test data
+target <- df %>%
+  filter(name == "test") %>%
+  select(-name)
 saveRDS(target, "../stores/target.Rds")

@@ -1,3 +1,4 @@
+tictoc::tic("Neural Network")
 source("../scripts/recipes.R")
 source("../scripts/workflows.R")
 source("../scripts/tuning.R")
@@ -9,7 +10,7 @@ result <- wf %>% tuning(
     model = "mlp"
 )
 parallel::stopCluster(cl)
-print("---- MLP ---")
+cat("-------------------------\n---------- MLP ----------\n-------------------------\n")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -48,3 +49,4 @@ saveRDS(result, "../stores/result_mlp.Rds")
 # )
 
 # saveRDS(report, file = "../stores/lm_reg.rds")
+tictoc::toc()

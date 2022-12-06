@@ -1,3 +1,4 @@
+tictoc::tic("Ridge")
 source("../scripts/recipes.R")
 source("../scripts/workflows.R")
 source("../scripts/tuning.R")
@@ -10,7 +11,7 @@ result <- wf %>% tuning(
     model = "ridge"
 )
 parallel::stopCluster(cl)
-print("---- RIDGE ---")
+cat("---------------------------\n---------- RIDGE ----------\n---------------------------\n")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -55,3 +56,4 @@ saveRDS(result, "../stores/result_ridge.Rds")
 # )
 
 # saveRDS(report, file = "../stores/ridge_reg.rds")
+tictoc::toc()

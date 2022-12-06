@@ -1,3 +1,4 @@
+tictoc::tic("Lasso")
 source("../scripts/recipes.R")
 source("../scripts/workflows.R")
 source("../scripts/tuning.R")
@@ -10,7 +11,7 @@ result <- wf %>% tuning(
     model = "lasso"
 )
 parallel::stopCluster(cl)
-print("---- LASSO ---")
+cat("---------------------------\n---------- LASSO ----------\n---------------------------\n")
 result %>%
     collect_metrics() %>%
     filter(.metric == "accuracy") %>%
@@ -55,3 +56,4 @@ saveRDS(result, "../stores/result_lasso.Rds")
 # )
 
 # saveRDS(report, file = "../stores/lasso_reg.rds")
+tictoc::toc()
