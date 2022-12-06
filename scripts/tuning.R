@@ -3,7 +3,7 @@ library("tune")
 library("stacks")
 library("finetune")
 
-ctrl_grid <- stacks::control_stack_grid(allow_par = TRUE)
+ctrl_grid <- stacks::control_stack_grid()
 ctrl_grid_race <- finetune::control_race()
 
 size <- 200
